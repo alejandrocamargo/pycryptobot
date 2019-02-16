@@ -1,0 +1,2 @@
+scp -r /Users/alejandrocamargo/python/bot pi@192.168.1.21:/home/pi/bot
+#docker run -d --hostname my-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 8080:15672 rabbitmq:3-management
