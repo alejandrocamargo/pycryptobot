@@ -19,13 +19,14 @@ def main():
     eur_account = coinbase.get_account(auth_client, "EUR")
 
     #log.info(f"Balances: {eur_account['balance']} {eur_account['currency']} | {btc_account['balance']} {btc_account['currency']}")
-    log.info("Balances: {} {} | {} {}".format(eur_account['balance'], eur_account['currency'], btc_account['balance'], btc_account['currency']))
-
-    order = coinbase.get_order(auth_client)
+    log.info("Balances: {} {} | {} {}".format(eur_account['balance'], eur_account['currency'], btc_account['balance'], btc_account['currency']))   
 
     while True:
 
         try:
+
+            order = coinbase.get_order(auth_client)
+
             btc_price = coinbase.get_btc_price()
             btc_prices.append(btc_price)
 
@@ -49,9 +50,19 @@ def make_trading_decision(auth_client, order, btc_price, btc_avg_price, btc_mv_a
     
     log = logging.getLogger("Bot")
 
-    # We assume no order = buy BTC
+    # We assume no order = buy BTC NOOOOOO
     if order is None:
-        log.info("No order placed")
+        log.info("No order placed, evaluating...")
+
+        if float(btc_account['balance']) > 0:
+            # Sell
+            if btc_price > btc_avg_price and btc_price > btc_mv_avg_price:
+                coinbase.sell_btc_trade(auth_client, btc_price, float(btc_account['balance']))
+        else:
+            # Buy
+            if btc_price < btc_avg_price and btc_price < btc_mv_avg_price:
+                coinbase.buy_btc_trade(auth_client, btc_price, float(eur_account['balance']))
+
         
         if btc_price < btc_avg_price and btc_price < btc_mv_avg_price:
             coinbase.buy_btc_trade(auth_client, btc_price, float(eur_account['balance']))
