@@ -54,18 +54,15 @@ def make_trading_decision(auth_client, order, btc_price, btc_avg_price, btc_mv_a
     if order is None:
         log.info("No order placed, evaluating...")
 
-        if float(btc_account['balance']) > 0:
-            # Sell
+        # Do we have a position > 0.01 BTC ?
+        if float(btc_account['balance']) > 0.01:
+            # Sell BTC
             if btc_price > btc_avg_price and btc_price > btc_mv_avg_price:
                 coinbase.sell_btc_trade(auth_client, btc_price, float(btc_account['balance']))
         else:
-            # Buy
+            # Buy BTC
             if btc_price < btc_avg_price and btc_price < btc_mv_avg_price:
                 coinbase.buy_btc_trade(auth_client, btc_price, float(eur_account['balance']))
-
-        
-        if btc_price < btc_avg_price and btc_price < btc_mv_avg_price:
-            coinbase.buy_btc_trade(auth_client, btc_price, float(eur_account['balance']))
             
     else:
         if order['settled'] == False:
