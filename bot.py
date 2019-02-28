@@ -15,15 +15,16 @@ def main():
     btc_prices = []
 
     auth_client = coinbase.get_auth_client()
-    btc_account = coinbase.get_account(auth_client, "BTC")
-    eur_account = coinbase.get_account(auth_client, "EUR")
-
-    #log.info(f"Balances: {eur_account['balance']} {eur_account['currency']} | {btc_account['balance']} {btc_account['currency']}")
-    log.info("Balances: {} {} | {} {}".format(eur_account['balance'], eur_account['currency'], btc_account['balance'], btc_account['currency']))   
 
     while True:
 
         try:
+
+            btc_account = coinbase.get_account(auth_client, "BTC")
+            eur_account = coinbase.get_account(auth_client, "EUR")
+
+            #log.info(f"Balances: {eur_account['balance']} {eur_account['currency']} | {btc_account['balance']} {btc_account['currency']}")
+            log.info("Balances: {} {} | {} {}".format(eur_account['balance'], eur_account['currency'], btc_account['balance'], btc_account['currency']))   
 
             order = coinbase.get_order(auth_client)
 

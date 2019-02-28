@@ -18,7 +18,6 @@ def get_btc_price():
 def get_auth_client():
 
 
-
     return cbpro.AuthenticatedClient(key, b64secret, passphrase)
 
 """
